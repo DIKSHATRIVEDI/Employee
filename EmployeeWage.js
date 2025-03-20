@@ -22,8 +22,7 @@ function getWorkingHours(empCheck) {
 // Variables
 let totalEmpHrs = 0;
 let totalWorkingDays = 0;
-let dailyWageMap = new Map(); // To store day-wise wages
-let dailyHourMap = new Map(); // To store day-wise hours
+let empDailyData = []; // Array to store objects
 
 // Calculate Daily Wages and Hours
 while (totalEmpHrs < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
@@ -34,31 +33,25 @@ while (totalEmpHrs < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
     
     totalEmpHrs += dailyHours;
 
-    // Store day-wise wage and hours in Map
-    dailyWageMap.set(totalWorkingDays, dailyWage);
-    dailyHourMap.set(totalWorkingDays, dailyHours);
+    // Store in an object
+    let dailyData = {
+        day: totalWorkingDays,
+        hoursWorked: dailyHours,
+        wageEarned: dailyWage
+    };
+
+    empDailyData.push(dailyData); // Add to the array
 }
 
-// (a) Calculate total wage and total hours worked
-const totalWage = [...dailyWageMap.values()].reduce((total, wage) => total + wage, 0);
-const totalHours = [...dailyHourMap.values()].reduce((total, hours) => total + hours, 0);
+// Display Employee Data
+console.log("=== Employee Daily Data ===");
+empDailyData.forEach(data => {
+    console.log(`Day: ${data.day}, Hours Worked: ${data.hoursWorked}, Wage Earned: $${data.wageEarned}`);
+});
 
-console.log(`Total Wage: $${totalWage}, Total Hours Worked: ${totalHours}`);
+// Total Wage and Total Hours
+const totalWage = empDailyData.reduce((total, data) => total + data.wageEarned, 0);
+const totalHours = empDailyData.reduce((total, data) => total + data.hoursWorked, 0);
 
-// (b) Show full working days, part working days, and no working days
-const fullWorkingDays = [...dailyHourMap.entries()]
-    .filter(([day, hours]) => hours === FULL_TIME_HOURS)
-    .map(([day]) => day);
-
-const partWorkingDays = [...dailyHourMap.entries()]
-    .filter(([day, hours]) => hours === PART_TIME_HOURS)
-    .map(([day]) => day);
-
-const noWorkingDays = [...dailyHourMap.entries()]
-    .filter(([day, hours]) => hours === 0)
-    .map(([day]) => day);
-
-console.log(`Full Working Days: ${fullWorkingDays}`);
-console.log(`Part Working Days: ${partWorkingDays}`);
-console.log(`No Working Days: ${noWorkingDays}`);
-
+console.log(`\nTotal Hours Worked: ${totalHours}`);
+console.log(`Total Wage Earned: $${totalWage}`);
