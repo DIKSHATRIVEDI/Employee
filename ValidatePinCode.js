@@ -1,4 +1,4 @@
-const pinCode = "A400088";
+const pinCode = "400088B";
 const pinCodePattern = /^[1-9][0-9]{5}$/;
 
 if (pinCodePattern.test(pinCode)) {
