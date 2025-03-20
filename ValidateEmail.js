@@ -1,5 +1,5 @@
-const email = "abc.xyz@bridgelabz.co.in";
-const emailPattern = /^abc(\.[a-z]+)?@bridgelabz\.co(\.[a-z]{2})?$/;
+const email = "abc@bridgelabz.co";
+const emailPattern = /^abc@bridgelabz\.[a-z]{2,3}$/;
 
 if (emailPattern.test(email)) {
     console.log("Valid Email");
