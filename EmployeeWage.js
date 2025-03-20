@@ -43,15 +43,31 @@ while (totalEmpHrs < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
     empDailyData.push(dailyData); // Add to the array
 }
 
-// Display Employee Data
-console.log("=== Employee Daily Data ===");
-empDailyData.forEach(data => {
-    console.log(`Day: ${data.day}, Hours Worked: ${data.hoursWorked}, Wage Earned: $${data.wageEarned}`);
-});
-
-// Total Wage and Total Hours
+//  (a) Calculate Total Wage and Total Hours using Arrow Function
 const totalWage = empDailyData.reduce((total, data) => total + data.wageEarned, 0);
 const totalHours = empDailyData.reduce((total, data) => total + data.hoursWorked, 0);
 
 console.log(`\nTotal Hours Worked: ${totalHours}`);
 console.log(`Total Wage Earned: $${totalWage}`);
+
+//  (b) Show Full Working Days using forEach
+console.log("\n=== Full Working Days ===");
+empDailyData.forEach(data => {
+    if (data.hoursWorked === FULL_TIME_HOURS) {
+        console.log(`Day: ${data.day}, Hours Worked: ${data.hoursWorked}, Wage Earned: $${data.wageEarned}`);
+    }
+});
+
+//  (c) Show Part Working Days using Map and reduce to String Array
+const partWorkingDays = empDailyData
+    .map(data => data.hoursWorked === PART_TIME_HOURS ? `Day: ${data.day}` : null)
+    .filter(day => day !== null);
+
+console.log(`\nPart Working Days: [${partWorkingDays.join(", ")}]`);
+
+//  (d) No Working Days using Map function
+const noWorkingDays = empDailyData
+    .map(data => data.hoursWorked === 0 ? `Day: ${data.day}` : null)
+    .filter(day => day !== null);
+
+console.log(`\nNo Working Days: [${noWorkingDays.join(", ")}]`);
